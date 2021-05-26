@@ -16,11 +16,14 @@ import session from "express-session";
 import connectRedis from "connect-redis";
 
 import cors from "cors";
+import { sendEmail } from "./utils/sendEmail";
+import { User } from "./entities/User";
 const main = async () => {
-   const app = express();
    const orm = await MikroORM.init(microConfig);
-   orm.getMigrator().up();
 
+   await orm.getMigrator().up();
+
+   const app = express();
    const RedisStore = connectRedis(session);
    app.use(
       cors({
