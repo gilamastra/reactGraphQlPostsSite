@@ -21,6 +21,9 @@ class UsernamePasswordInput {
 
    @Field()
    password: string;
+
+   @Field()
+   email: string;
 }
 
 @ObjectType()
@@ -76,6 +79,16 @@ export class UserResolver {
             ],
          };
       }
+      if (options.email.includes("@")) {
+         return {
+            errors: [
+               {
+                  field: "email",
+                  message: "invalid Email",
+               },
+            ],
+         };
+      }
       if (options.password.length <= 2) {
          return {
             errors: [
@@ -95,6 +108,7 @@ export class UserResolver {
             .getKnexQuery()
             .insert({
                username: options.username,
+               email: options.email,
                password: hashedPassword,
                created_at: new Date(),
                updated_at: new Date(),
