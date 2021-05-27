@@ -1,3 +1,4 @@
+import { Redis } from "ioredis";
 import {
    EntityManager,
    IDatabaseDriver,
@@ -8,6 +9,6 @@ export type MyContext = {
    em: EntityManager<any> &
       EntityManager<IDatabaseDriver<Connection>>;
    req: Request & { session: Express.Session };
-
+   redis: Redis;
    res: Response;
 };
